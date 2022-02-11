@@ -15,7 +15,7 @@
 /// // A new value can be supplied mid-interpolation without causing a discontinuity
 /// value.set(1.5);
 /// value.advance(0.5);
-/// assert_eq!(value.get(), 1.0);
+/// assert_eq!(value.get(), 1.25);
 /// value.advance(0.5);
 /// assert_eq!(value.get(), 1.5);
 /// // Interpolation halts once the target value is reached
@@ -66,7 +66,7 @@ impl<T> Smoothed<T> {
         if self.progress < 1. && (value - self.get()).sign() == (value - self.prev).sign() {
             let current = self.get();
             self.next = value;
-            self.progress = ((current - self.prev) / (self.next - current)).to_f32();
+            self.progress = ((current - self.prev) / (self.next - self.prev)).to_f32();
         } else {
             self.prev = self.get();
             self.next = value;
